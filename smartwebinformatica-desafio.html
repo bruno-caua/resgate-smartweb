@@ -1,477 +1,586 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartWeb Informática | Informática e Redes</title>
 
-<script type="text/javascript">
-// ****** SCRIPT DO SITE ******* NAO MEXER!!!!
+    <script type="text/javascript">
+        // ****** SCRIPT DO SITE ******* NAO MEXER!!!!
 
-var produtos = [
-  {nome: "Notebook Pro 14\", i5, 16 GB, SSD 512 GB", sku: "NB-PRO14", linha: "comp", preco: "4290", desc: "Tela Full HD, teclado com numérico reduzido e bateria para o dia todo."},
-  {nome: "Desktop Office, i5, 8 GB, SSD 256 GB", sku: "DT-OFFICE", linha: "comp", preco: "2890", desc: "Torre compacta para caixa e atendimento, com Windows 11 Pro."},
-  {nome: "Mini PC Compacto, Ryzen 5, 16 GB", sku: "MP-R5", linha: "comp", preco: "2390", desc: "Cabe atrás do monitor e gasta pouca energia. Ideal para recepção."},
-  {nome: "Monitor 24\" Full HD IPS", sku: "MN-24IPS", linha: "comp", preco: "849", desc: "Ângulo de visão aberto, entradas HDMI e DisplayPort, base ajustável."},
-  {nome: "Switch gerenciável Gigabit, 24 portas", sku: "SW-GER24", linha: "rede", preco: "1690", desc: "VLANs, controle de banda e portas sobrando para a empresa crescer."},
-  {nome: "Access Point Wi-Fi 6 de teto", sku: "AP-W6T", linha: "rede", preco: "780", desc: "Rede separada para visitantes e alimentação pelo cabo de rede (PoE)."},
-  {nome: "Roteador dual WAN com VLAN", sku: "RT-DWAN", linha: "rede", preco: "620", desc: "Dois links de internet com troca automática se um cair."},
-  {nome: "Cabo CAT6, caixa com 305 m", sku: "CB-CAT6-305", linha: "rede", preco: "690", desc: "Par trançado para pontos de rede Gigabit, com capa antichama."},
-  {nome: "NAS de 2 baias", sku: "NAS-2B", linha: "prot", preco: "2190", desc: "Compartilha arquivos e faz backup automático. Discos vendidos à parte."},
-  {nome: "Nobreak senoidal 1500 VA", sku: "UPS-1500S", linha: "prot", preco: "2450", desc: "Energia limpa para servidor e switch, com proteção contra queima."},
-  {nome: "SSD NVMe 1 TB", sku: "SSD-NV1T", linha: "prot", preco: "520", desc: "Troca o disco antigo e deixa o computador bem mais rápido."},
-  {nome: "HD externo 2 TB, USB 3.0", sku: "HD-EXT2T", linha: "prot", preco: "489", desc: "Segunda mídia local para a cópia de segurança diária."}
-]
+        var produtos = [
+            { nome: "Notebook Pro 14\", i5, 16 GB, SSD 512 GB", sku: "NB-PRO14", linha: "comp", preco: "4290", desc: "Tela Full HD, teclado com numérico reduzido e bateria para o dia todo." },
+            { nome: "Desktop Office, i5, 8 GB, SSD 256 GB", sku: "DT-OFFICE", linha: "comp", preco: "2890", desc: "Torre compacta para caixa e atendimento, com Windows 11 Pro." },
+            { nome: "Mini PC Compacto, Ryzen 5, 16 GB", sku: "MP-R5", linha: "comp", preco: "2390", desc: "Cabe atrás do monitor e gasta pouca energia. Ideal para recepção." },
+            { nome: "Monitor 24\" Full HD IPS", sku: "MN-24IPS", linha: "comp", preco: "849", desc: "Ângulo de visão aberto, entradas HDMI e DisplayPort, base ajustável." },
+            { nome: "Switch gerenciável Gigabit, 24 portas", sku: "SW-GER24", linha: "rede", preco: "1690", desc: "VLANs, controle de banda e portas sobrando para a empresa crescer." },
+            { nome: "Access Point Wi-Fi 6 de teto", sku: "AP-W6T", linha: "rede", preco: "780", desc: "Rede separada para visitantes e alimentação pelo cabo de rede (PoE)." },
+            { nome: "Roteador dual WAN com VLAN", sku: "RT-DWAN", linha: "rede", preco: "620", desc: "Dois links de internet com troca automática se um cair." },
+            { nome: "Cabo CAT6, caixa com 305 m", sku: "CB-CAT6-305", linha: "rede", preco: "690", desc: "Par trançado para pontos de rede Gigabit, com capa antichama." },
+            { nome: "NAS de 2 baias", sku: "NAS-2B", linha: "prot", preco: "2190", desc: "Compartilha arquivos e faz backup automático. Discos vendidos à parte." },
+            { nome: "Nobreak senoidal 1500 VA", sku: "UPS-1500S", linha: "prot", preco: "2450", desc: "Energia limpa para servidor e switch, com proteção contra queima." },
+            { nome: "SSD NVMe 1 TB", sku: "SSD-NV1T", linha: "prot", preco: "520", desc: "Troca o disco antigo e deixa o computador bem mais rápido." },
+            { nome: "HD externo 2 TB, USB 3.0", sku: "HD-EXT2T", linha: "prot", preco: "489", desc: "Segunda mídia local para a cópia de segurança diária." }
+        ]
 
-var carrinho = []
-var linhaAtual = "todas"
-var total
+        var carrinho = []
+        var linhaAtual = "todas"
+        var total
 
-function mostraAba(aba) {
-  document.getElementById("empresa").style.display = "none"
-  document.getElementById("produto").style.display = "none"
-  document.getElementById("contato").style.display = "none"
-  document.getElementById("faq").style.display = "none"
-  document.getElementById(aba).style.display = "block"
-}
+        function mostraAba(aba) {
+            document.getElementById("empresa").style.display = "none"
+            document.getElementById("produto").style.display = "none"
+            document.getElementById("contato").style.display = "none"
+            document.getElementById("faq").style.display = "none"
+            document.getElementById(aba).style.display = "block"
+        }
 
-function montaCatalogo() {
-  var html = ""
-  for (var i = 0; i <= produtos.length; i++) {
-    if (linhaAtual = "todas" || produtos[i].linha == linhaAtual) {
-      html = html + "<div class='card' style='float:left;width:240px;height:330px;margin:5px;border:1px solid #eee'>"
-      html = html + "<img src='produto" + i + ".png' alt='" + produtos[i].nome + "' width='120'>"
-      html = html + "<span class='produto-sku'>" + produtos[i].sku + "</span><br>"
-      html = html + "<h3>" + produtos[i].nome + "</h3>"
-      html = html + "<span class='produto-descricao'>" + produtos[i].desc + "</span><br><br>"
-      html = html + "<b style='font-size:20px'>R$ " + produtos[i].preco + "</b><br>"
-      html = html + "<button type='button' class='botao' onclick='adiciona(" + i + ")'>Adicionar ao pedido</button>"
-      html = html + "</div>"
-    }
-  }
-  document.getElementById("catalogo").innerHtml = html
-}
+        function montaCatalogo() {
+            var html = ""
+            for (var i = 0; i <= produtos.length; i++) {
+                if (linhaAtual = "todas" || produtos[i].linha == linhaAtual) {
+                    html = html + "<div class='card' style='float:left;width:240px;height:330px;margin:5px;border:1px solid #eee'>"
+                    html = html + "<img src='produto" + i + ".png' alt='" + produtos[i].nome + "' width='120'>"
+                    html = html + "<span class='produto-sku'>" + produtos[i].sku + "</span><br>"
+                    html = html + "<h3>" + produtos[i].nome + "</h3>"
+                    html = html + "<span class='produto-descricao'>" + produtos[i].desc + "</span><br><br>"
+                    html = html + "<b style='font-size:20px'>R$ " + produtos[i].preco + "</b><br>"
+                    html = html + "<button type='button' class='botao' onclick='adiciona(" + i + ")'>Adicionar ao pedido</button>"
+                    html = html + "</div>"
+                }
+            }
+            document.getElementById("catalogo").innerHtml = html
+        }
 
-function filtra(l) {
-  linhaAtual == l
-  montaCatalogo()
-}
+        function filtra(l) {
+            linhaAtual == l
+            montaCatalogo()
+        }
 
-function busca() {
-  var termo = document.getElementById("busca").value
-  document.getElementById("resultadoBusca").innerHTML = "Você buscou por: <b>" + termo + "</b>"
-  for (i = 0; i < produtos.length; i++) {
-    if (produtos[i].nome.indexOf(termo) > 0) {
-      document.getElementById("catalogo").innerHTML = produtos[i].nome
-    }
-  }
-}
+        function busca() {
+            var termo = document.getElementById("busca").value
+            document.getElementById("resultadoBusca").innerHTML = "Você buscou por: <b>" + termo + "</b>"
+            for (i = 0; i < produtos.length; i++) {
+                if (produtos[i].nome.indexOf(termo) > 0) {
+                    document.getElementById("catalogo").innerHTML = produtos[i].nome
+                }
+            }
+        }
 
-function adiciona(i) {
-  carrinho.push(produtos[i])
-  for (var j = 0; j < carrinho.length; j++) {
-    total = total + carrinho[j].preco
-  }
-  document.getElementById("qtd").innerHTML = carrinho.length
-  document.getElementById("total").innerHTML = "R$ " + total
-  alert("PRODUTO ADICIONADO COM SUCESSO!!!!!")
-}
+        function adiciona(i) {
+            carrinho.push(produtos[i])
+            for (var j = 0; j < carrinho.length; j++) {
+                total = total + carrinho[j].preco
+            }
+            document.getElementById("qtd").innerHTML = carrinho.length
+            document.getElementById("total").innerHTML = "R$ " + total
+            alert("PRODUTO ADICIONADO COM SUCESSO!!!!!")
+        }
 
-function limpar() {
-  carrinho = ""
-  document.getElementById("total").innerHTML = ""
-}
+        function limpar() {
+            carrinho = ""
+            document.getElementById("total").innerHTML = ""
+        }
 
-function enviar() {
-  var nome = document.getElementById("nome").value
-  var email = document.getElemetById("email").value
-  var msg = document.getElementById("msg").value
-  if (nome == "") {
-    alert("ERRO!!!")
-  }
-  if (email.indexOf("@") = -1) {
-    alert("ERRO NO EMAIL")
-  }
-  if (msg == "") alert("ERRO")
-  document.getElementById("resultado").innerHTML = "Nome: " + nome + "<br>Email: " + email + "<br>Mensagem: " + msg
-}
+        function enviar() {
+            var nome = document.getElementById("nome").value
+            var email = document.getElemetById("email").value
+            var msg = document.getElementById("msg").value
+            if (nome == "") {
+                alert("ERRO!!!")
+            }
+            if (email.indexOf("@") = -1) {
+                alert("ERRO NO EMAIL")
+            }
+            if (msg == "") alert("ERRO")
+            document.getElementById("resultado").innerHTML = "Nome: " + nome + "<br>Email: " + email + "<br>Mensagem: " + msg
+        }
 
-function copiar(id) {
-  document.execCommand("copy")
-  alert("copiado")
-}
+        function copiar(id) {
+            document.execCommand("copy")
+            alert("copiado")
+        }
 
-window.onload = montaCatalogo()
-</script>
+        window.onload = montaCatalogo()
+    </script>
 
-<style>
-* { margin: 0; padding: 0; outline: none !important; }
-body { width: 1100px; font-family: "Comic Sans MS", cursive; font-size: 13px; color: #999; background: #fff; }
-#topo { background: #0a62a8; height: 90px; }
-div#topo table tr td div.logo span b { font-size: 30px !important; color: #3b7fc0 !important; }
-.aba { float: left; width: 250px; padding: 15px; background: #eee; color: #ccc; cursor: pointer; }
-.aba:hover { background: #0a62a8; color: #3b7fc0; }
-.botao { background: #ffeb3b; color: #fff; padding: 8px; text-align: center; cursor: pointer; width: 200px; }
-.botao:hover { background: #ffd600 !important; }
-h1 { font-size: 40px; color: #ddd; }
-h1 { font-size: 22px !important; }
-.titulo { font-size: 18px !important; color: #aaa !important; }
-#produtos .card h4 { color: #aaa; font-size: 14px; }
-.card h4 { color: #000 !important; }
-.piscar { animation: pisca 0.4s infinite; }
-@keyframes pisca { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
-.verde { width: 10px; height: 10px; background: green; display: inline-block; }
-.vermelho { width: 10px; height: 10px; background: red; display: inline-block; }
-.resposta { display: none; color: #ccc; }
-input, textarea { border: 1px solid #f5f5f5; width: 300px; height: 30px; color: #ccc; }
-@media (max-width: 1200px) { #menu { display: none; } }
-</style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            outline: none !important;
+        }
+
+        body {
+            width: 1100px;
+            font-family: "Comic Sans MS", cursive;
+            font-size: 13px;
+            color: #999;
+            background: #fff;
+        }
+
+        #topo {
+            background: #0a62a8;
+            height: 90px;
+        }
+
+        div#topo table tr td div.logo span b {
+            font-size: 30px !important;
+            color: #3b7fc0 !important;
+        }
+
+        .aba {
+            float: left;
+            width: 250px;
+            padding: 15px;
+            background: #eee;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .aba:hover {
+            background: #0a62a8;
+            color: #3b7fc0;
+        }
+
+        .botao {
+            background: #ffeb3b;
+            color: #fff;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            width: 200px;
+        }
+
+        .botao:hover {
+            background: #ffd600 !important;
+        }
+
+        h1 {
+            font-size: 40px;
+            color: #ddd;
+        }
+
+        h1 {
+            font-size: 22px !important;
+        }
+
+        .titulo {
+            font-size: 18px !important;
+            color: #aaa !important;
+        }
+
+        #produtos .card h4 {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .card h4 {
+            color: #000 !important;
+        }
+
+        .piscar {
+            animation: pisca 0.4s infinite;
+        }
+
+        @keyframes pisca {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .verde {
+            width: 10px;
+            height: 10px;
+            background: green;
+            display: inline-block;
+        }
+
+        .vermelho {
+            width: 10px;
+            height: 10px;
+            background: red;
+            display: inline-block;
+        }
+
+        .resposta {
+            display: none;
+            color: #ccc;
+        }
+
+        input,
+        textarea {
+            border: 1px solid #f5f5f5;
+            width: 300px;
+            height: 30px;
+            color: #ccc;
+        }
+
+        @media (max-width: 1200px) {
+            #menu {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header id="topo">
-    <div class="topo-conteudo">
+    <header id="topo">
+        <div class="topo-conteudo">
 
-       <img src="logo.png" alt="SmartWeb Informática" width="60" height="60">
+            <img src="logo.png" alt="SmartWeb Informática" width="60" height="60">
 
-        <div class="logo">
-            <span><b>SmartWeb</b></span>
-            <br>
-            <span class="logo-descricao">
-    INFORMÁTICA E REDES
-</span>
+            <div class="logo">
+                <span><b>SmartWeb</b></span>
+                <br>
+                <span class="logo-descricao">
+                    INFORMÁTICA E REDES
+                </span>
+            </div>
+
+            <button type="button" onclick="mostraAba('produtos')">
+                Meu pedido (<span id="qtd">0</span>)
+            </button>
+
         </div>
+    </header>
 
-        <button type="button" onclick="mostraAba('produtos')">
-            Meu pedido (<span id="qtd">0</span>)
+    <nav id="menu" aria-label="Navegação principal">
+
+        <button type="button" class="aba" onclick="mostraAba('empresa')">
+            A empresa
         </button>
 
-    </div>
-</header>
+        <button type="button" class="aba" onclick="mostraAba('produtos')">
+            Produtos
+        </button>
 
-<nav id="menu" aria-label="Navegação principal">
+        <button type="button" class="aba" onclick="mostraAba('contato')">
+            Contato
+        </button>
 
-    <button type="button" class="aba" onclick="mostraAba('empresa')">
-        A empresa
-    </button>
+        <button type="button" class="aba" onclick="mostraAba('faq')">
+            Perguntas frequentes
+        </button>
 
-    <button type="button" class="aba" onclick="mostraAba('produtos')">
-        Produtos
-    </button>
+    </nav>
+    <br><br><br><br>
 
-    <button type="button" class="aba" onclick="mostraAba('contato')">
-        Contato
-    </button>
-
-    <button type="button" class="aba" onclick="mostraAba('faq')">
-        Perguntas frequentes
-    </button>
-
-</nav>
-<br><br><br><br>
-
-<main>
-<!-- EMPRESA -->
-<section id="empresa">
-  <p class="chamada-promocao">
-    *** PROMOÇÃO IMPERDÍVEL ***
-</p>
-  <span class="texto-auxiliar">
-    LOJA DE INFORMÁTICA E INFRAESTRUTURA DE REDE
-</span>
-  <h1>Equipamento certo para a sua empresa funcionar amanhã cedo.</h1>
-  <br>
-  <p class="texto-descricao">
-    A SmartWeb vende computadores, redes e proteção de dados para pequenas e médias empresas. Indicamos o que o seu negócio usa de verdade e deixamos o resto de fora.
-</p>
-<button type="button" class="botao" style="float:left" onclick="mostraAba('produtos')">
-    Ver produtos
-</button>
-
-<button type="button" class="botao" style="float:left;margin-left:10px;background:#fff;color:#ffeb3b;border:1px solid #ffeb3b" onclick="mostraAba('contato')">
-    Pedir orçamento
-</button>
-  <br><br><br>
-
-  <img src="switch-24-portas.jpg" alt="Switch gerenciável Gigabit de 24 portas" width="1100" height="120">
-  <br>
-  Status das portas: <span class="verde"></span> <span class="verde"></span> <span class="vermelho"></span> <span class="verde"></span> <span class="vermelho"></span>
-  <br><br>
-
-  <section class="empresa-bloco">
-    <h2>QUEM SOMOS</h2>
-
-    <p>
-        A SmartWeb é uma loja de informática voltada ao comércio e aos escritórios. Vendemos pela internet e também montamos a rede interna do cliente, do cabo ao backup.
-    </p>
-
-    <p>
-        Trabalhamos com linhas para empresas (SMB), que trazem controle de banda, segmentação por VLAN e garantia de balcão. Equipamento doméstico fica fora do catálogo de redes.
-    </p>
-</section>
-
-<section class="empresa-bloco">
-    <h2>O QUE VENDEMOS</h2>
-
-    <div class="categorias">
-
-        <article class="categoria">
-            <h3>Computadores e notebooks</h3>
-            <p>Máquinas de trabalho para balcão, escritório e home office, com monitor e mini PC.</p>
-        </article>
-
-        <article class="categoria">
-            <h3>Redes e conectividade</h3>
-            <p>Switches, Wi-Fi corporativo, roteadores e cabeamento CAT6.</p>
-        </article>
-
-        <article class="categoria">
-            <h3>Armazenamento e proteção</h3>
-            <p>NAS, nobreak senoidal, SSD e discos externos para backup.</p>
-        </article>
-
-    </div>
-</section>
-
-<section class="empresa-bloco">
-    <h2>COMO TRABALHAMOS</h2>
-
-    <article>
-        <h3>Rede com folga de 30% a 50%</h3>
-        <p>Eletrocalhas com espaço livre e switches com portas sobrando, para contratar gente sem trocar equipamento.</p>
-    </article>
-
-    <article>
-        <h3>Tudo documentado</h3>
-        <p>Entregamos o mapa de cabeamento, a tabela de IPs e as senhas de administração ao dono da empresa.</p>
-    </article>
-
-    <article>
-        <h3>Servidor do tamanho da necessidade</h3>
-        <p>Servidor de entrada para domínio e aplicações, ou NAS quando o uso é guardar e compartilhar arquivos.</p>
-    </article>
-
-    <article>
-        <h3>Backup 3-2-1</h3>
-        <p>Três cópias dos dados, duas mídias locais diferentes e uma cópia criptografada na nuvem.</p>
-    </article>
-</section>
-
-<section class="empresa-bloco">
-    <h2>ATENDIMENTO</h2>
-    <p>
-        Segunda a sexta &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8h às 18h<br>
-        Sábado &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8h às 12h<br>
-        Pedidos pelo site &nbsp;&nbsp;&nbsp; Recebidos todos os dias
-    </p>
-</section>
-</section>
-
-<!-- PRODUTOS -->
-<section id="produtos" style="display:none">
-  <h2>Produtos</h2>
-  <input type="text" id="busca" placeholder="buscar..." onkeyup="busca()">
-<div class="filtros-linha">
-
-    <button type="button" onclick="filtra('todas')">
-        Todas as linhas
-    </button>
-
-    <button type="button" onclick="filtra('comp')">
-        Computadores e notebooks
-    </button>
-
-    <button type="button" onclick="filtra('rede')">
-        Redes e conectividade
-    </button>
-
-    <button type="button" onclick="filtra('prot')">
-        Armazenamento e proteção
-    </button>
-
-</div>
-  <div id="resultadoBusca"></div>
-  <br>
-  <div id="catalogo"></div>
-  <div style="clear:both"></div>
-
-  <div id="pedido" style="border:1px solid #eee;padding:10px;margin-top:20px">
-    <h3>Meu pedido</h3>
-    Total: <span id="total" style="color:green"></span>
-    <br><br>
-    <button type="button" class="botao" onclick="mostraAba('contato')">
-    Solicitar pedido
-</button>
-
-<button type="button" class="botao" onclick="limpar()" style="background:#eee">
-    Limpar
-</button>
-  </div>
-</section>
-
-<!-- CONTATO -->
-<section id="contato" style="display:none">
-
-    <h2>Fale com a SmartWeb</h2>
-
-  <p class="texto-auxiliar">
-    Dúvidas, orçamentos e pedidos.
-</p>
-    <div class="contato-layout">
-
-        <!-- FORMULÁRIO -->
-        <div class="contato-formulario">
-
-            <form id="form-contato">
-
-    <label for="nome">Nome</label>
-    <input
-        type="text"
-        id="nome"
-        name="nome"
-        autocomplete="name"
-        required
-    >
-    <br><br>
-
-    <label for="email">E-mail</label>
-    <input
-        type="email"
-        id="email"
-        name="email"
-        autocomplete="email"
-        required
-    >
-    <br><br>
-
-    <label for="assunto">Assunto</label>
-    <select id="assunto" name="assunto">
-        <option>Orçamento</option>
-        <option>Pedido de compra</option>
-        <option>Projeto de rede</option>
-        <option>Suporte e garantia</option>
-        <option>Outro assunto</option>
-    </select>
-    <br><br>
-
-    <label for="msg">Mensagem</label>
-    <textarea
-        id="msg"
-        name="msg"
-        required
-    ></textarea>
-    <br><br>
-
-    <button type="submit" onclick="enviar()" class="botao">
-        Montar mensagem
-    </button>
-
-</form>
-            <div id="resultado" style="color:#ccc"></div>
-
-        </div>
-
-        <!-- INFORMAÇÕES DE CONTATO -->
-        <aside class="contato-informacoes" aria-label="Informações de contato">
-
-            <div>
-                <h3>WHATSAPP</h3>
-
-                <span id="c-wa">(51) 99000-0000</span>
-
-                <button type="button" onclick="copiar('c-wa')">
-                    [copiar]
-                </button>
-            </div>
-
-            <br>
-
-            <div>
-                <h3>TELEFONE</h3>
-
-<span id="c-tel">(51) 3000-0000</span>
-
-<button type="button" onclick="copiar('c-tel')">
-    [copiar]
-</button>
-            </div>
-
-            <br>
-
-            <div>
-                <h3>E-MAIL</h3>
-
-                <span id="c-mail">contato@SmartWebinformatica.com.br</span>
-
-                <button type="button" onclick="copiar('c-mail')">
-                    [copiar]
-                </button>
-            </div>
-
-            <br>
-
-            <p>
-                Respondemos em até um dia útil. Para projeto de rede, informe quantos computadores, impressoras e pontos de Wi-Fi a empresa tem hoje.
+    <main>
+        <!-- EMPRESA -->
+        <section id="empresa">
+            <p class="chamada-promocao">
+                *** PROMOÇÃO IMPERDÍVEL ***
             </p>
+            <span class="texto-auxiliar">
+                LOJA DE INFORMÁTICA E INFRAESTRUTURA DE REDE
+            </span>
+            <h1>Equipamento certo para a sua empresa funcionar amanhã cedo.</h1>
+            <br>
+            <p class="texto-descricao">
+                A SmartWeb vende computadores, redes e proteção de dados para pequenas e médias empresas. Indicamos o
+                que o seu negócio usa de verdade e deixamos o resto de fora.
+            </p>
+            <button type="button" class="botao" style="float:left" onclick="mostraAba('produtos')">
+                Ver produtos
+            </button>
 
-        </aside>
+            <button type="button" class="botao"
+                style="float:left;margin-left:10px;background:#fff;color:#ffeb3b;border:1px solid #ffeb3b"
+                onclick="mostraAba('contato')">
+                Pedir orçamento
+            </button>
+            <br><br><br>
 
-    </div>
+            <img src="switch-24-portas.jpg" alt="Switch gerenciável Gigabit de 24 portas" width="1100" height="120">
+            <br>
+            Status das portas: <span class="verde"></span> <span class="verde"></span> <span class="vermelho"></span>
+            <span class="verde"></span> <span class="vermelho"></span>
+            <br><br>
 
-</section>
+            <section class="empresa-bloco">
+                <h2>QUEM SOMOS</h2>
 
-<!-- FAQ -->
-<section id="faq" style="display:none">
+                <p>
+                    A SmartWeb é uma loja de informática voltada ao comércio e aos escritórios. Vendemos pela internet e
+                    também montamos a rede interna do cliente, do cabo ao backup.
+                </p>
 
-    <h2>Perguntas frequentes</h2>
+                <p>
+                    Trabalhamos com linhas para empresas (SMB), que trazem controle de banda, segmentação por VLAN e
+                    garantia de balcão. Equipamento doméstico fica fora do catálogo de redes.
+                </p>
+            </section>
 
-    <details>
-        <summary>Como faço um pedido?</summary>
-        <p>Na aba Produtos, adicione os itens ao pedido e clique em Solicitar pedido. A mensagem já sai com a lista e o total. Depois é só enviá-la pelo WhatsApp ou pelo e-mail da loja.</p>
-    </details>
+            <section class="empresa-bloco">
+                <h2>O QUE VENDEMOS</h2>
 
-    <details>
-        <summary>Quais são as formas de pagamento?</summary>
-        <p>Pix, boleto, cartão de crédito em até 10 vezes e faturamento para empresas com cadastro aprovado.</p>
-    </details>
+                <div class="categorias">
 
-    <details>
-        <summary>Qual é o prazo de entrega?</summary>
-        <p>Itens em estoque saem em até 2 dias úteis. Equipamentos de rede sob encomenda levam de 5 a 10 dias úteis, e avisamos o prazo no orçamento.</p>
-    </details>
+                    <article class="categoria">
+                        <h3>Computadores e notebooks</h3>
+                        <p>Máquinas de trabalho para balcão, escritório e home office, com monitor e mini PC.</p>
+                    </article>
 
-    <details>
-        <summary>Os produtos têm garantia e nota fiscal?</summary>
-        <p>Sim. Todos os produtos têm nota fiscal e garantia do fabricante. Equipamentos de linha empresarial costumam ter garantia estendida, informada na página de cada item.</p>
-    </details>
+                    <article class="categoria">
+                        <h3>Redes e conectividade</h3>
+                        <p>Switches, Wi-Fi corporativo, roteadores e cabeamento CAT6.</p>
+                    </article>
 
-    <details>
-        <summary>Vocês instalam a rede da minha empresa?</summary>
-        <p>Fazemos o projeto, o cabeamento e a configuração. A entrega inclui o mapa de cabeamento, a tabela de endereços IP e as senhas dos equipamentos.</p>
-    </details>
+                    <article class="categoria">
+                        <h3>Armazenamento e proteção</h3>
+                        <p>NAS, nobreak senoidal, SSD e discos externos para backup.</p>
+                    </article>
 
-    <details>
-        <summary>Qual servidor eu devo comprar?</summary>
-        <p>Depende do uso. Para guardar arquivos e fazer backup, um NAS atende bem e gasta menos energia. Para controle de domínio ou sistemas de gestão, indicamos um servidor em torre de entrada.</p>
-    </details>
+                </div>
+            </section>
 
-    <details>
-        <summary>Posso trocar um produto?</summary>
-        <p>Compras feitas pelo site podem ser devolvidas em até 7 dias corridos após o recebimento, com o produto lacrado e sem uso.</p>
-    </details>
+            <section class="empresa-bloco">
+                <h2>COMO TRABALHAMOS</h2>
 
-</section>
+                <article>
+                    <h3>Rede com folga de 30% a 50%</h3>
+                    <p>Eletrocalhas com espaço livre e switches com portas sobrando, para contratar gente sem trocar
+                        equipamento.</p>
+                </article>
 
-</main>
+                <article>
+                    <h3>Tudo documentado</h3>
+                    <p>Entregamos o mapa de cabeamento, a tabela de IPs e as senhas de administração ao dono da empresa.
+                    </p>
+                </article>
 
-<br><br><br>
-<footer class="rodape">
-    <p>
-        © 2026 SmartWeb Informática. Site desenvolvido por Baré Tech Sistemas S.A. Produtos, preços e contatos são exemplos.
-    </p>
-</footer>
+                <article>
+                    <h3>Servidor do tamanho da necessidade</h3>
+                    <p>Servidor de entrada para domínio e aplicações, ou NAS quando o uso é guardar e compartilhar
+                        arquivos.</p>
+                </article>
+
+                <article>
+                    <h3>Backup 3-2-1</h3>
+                    <p>Três cópias dos dados, duas mídias locais diferentes e uma cópia criptografada na nuvem.</p>
+                </article>
+            </section>
+
+            <section class="empresa-bloco">
+                <h2>ATENDIMENTO</h2>
+                <p>
+                    Segunda a sexta &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8h às 18h<br>
+                    Sábado
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    8h às 12h<br>
+                    Pedidos pelo site &nbsp;&nbsp;&nbsp; Recebidos todos os dias
+                </p>
+            </section>
+        </section>
+
+        <!-- PRODUTOS -->
+        <section id="produtos" style="display:none">
+            <h2>Produtos</h2>
+            <input type="text" id="busca" placeholder="buscar..." onkeyup="busca()">
+            <div class="filtros-linha">
+
+                <button type="button" onclick="filtra('todas')">
+                    Todas as linhas
+                </button>
+
+                <button type="button" onclick="filtra('comp')">
+                    Computadores e notebooks
+                </button>
+
+                <button type="button" onclick="filtra('rede')">
+                    Redes e conectividade
+                </button>
+
+                <button type="button" onclick="filtra('prot')">
+                    Armazenamento e proteção
+                </button>
+
+            </div>
+            <div id="resultadoBusca"></div>
+            <br>
+            <div id="catalogo"></div>
+            <div style="clear:both"></div>
+
+            <div id="pedido" style="border:1px solid #eee;padding:10px;margin-top:20px">
+                <h3>Meu pedido</h3>
+                Total: <span id="total" style="color:green"></span>
+                <br><br>
+                <button type="button" class="botao" onclick="mostraAba('contato')">
+                    Solicitar pedido
+                </button>
+
+                <button type="button" class="botao" onclick="limpar()" style="background:#eee">
+                    Limpar
+                </button>
+            </div>
+        </section>
+
+        <!-- CONTATO -->
+        <section id="contato" style="display:none">
+
+            <h2>Fale com a SmartWeb</h2>
+
+            <p class="texto-auxiliar">
+                Dúvidas, orçamentos e pedidos.
+            </p>
+            <div class="contato-layout">
+
+                <!-- FORMULÁRIO -->
+                <div class="contato-formulario">
+
+                    <form id="form-contato">
+
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="nome" autocomplete="name" required>
+                        <br><br>
+
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" autocomplete="email" required>
+                        <br><br>
+
+                        <label for="assunto">Assunto</label>
+                        <select id="assunto" name="assunto">
+                            <option>Orçamento</option>
+                            <option>Pedido de compra</option>
+                            <option>Projeto de rede</option>
+                            <option>Suporte e garantia</option>
+                            <option>Outro assunto</option>
+                        </select>
+                        <br><br>
+
+                        <label for="msg">Mensagem</label>
+                        <textarea id="msg" name="msg" required></textarea>
+                        <br><br>
+
+                        <button type="submit" onclick="enviar()" class="botao">
+                            Montar mensagem
+                        </button>
+
+                    </form>
+                    <div id="resultado" style="color:#ccc"></div>
+
+                </div>
+
+                <!-- INFORMAÇÕES DE CONTATO -->
+                <aside class="contato-informacoes" aria-label="Informações de contato">
+
+                    <div>
+                        <h3>WHATSAPP</h3>
+
+                        <span id="c-wa">(51) 99000-0000</span>
+
+                        <button type="button" onclick="copiar('c-wa')">
+                            [copiar]
+                        </button>
+                    </div>
+
+                    <br>
+
+                    <div>
+                        <h3>TELEFONE</h3>
+
+                        <span id="c-tel">(51) 3000-0000</span>
+
+                        <button type="button" onclick="copiar('c-tel')">
+                            [copiar]
+                        </button>
+                    </div>
+
+                    <br>
+
+                    <div>
+                        <h3>E-MAIL</h3>
+
+                        <span id="c-mail">contato@SmartWebinformatica.com.br</span>
+
+                        <button type="button" onclick="copiar('c-mail')">
+                            [copiar]
+                        </button>
+                    </div>
+
+                    <br>
+
+                    <p>
+                        Respondemos em até um dia útil. Para projeto de rede, informe quantos computadores, impressoras
+                        e pontos de Wi-Fi a empresa tem hoje.
+                    </p>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" style="display:none">
+
+            <h2>Perguntas frequentes</h2>
+
+            <details>
+                <summary>Como faço um pedido?</summary>
+                <p>Na aba Produtos, adicione os itens ao pedido e clique em Solicitar pedido. A mensagem já sai com a
+                    lista e o total. Depois é só enviá-la pelo WhatsApp ou pelo e-mail da loja.</p>
+            </details>
+
+            <details>
+                <summary>Quais são as formas de pagamento?</summary>
+                <p>Pix, boleto, cartão de crédito em até 10 vezes e faturamento para empresas com cadastro aprovado.</p>
+            </details>
+
+            <details>
+                <summary>Qual é o prazo de entrega?</summary>
+                <p>Itens em estoque saem em até 2 dias úteis. Equipamentos de rede sob encomenda levam de 5 a 10 dias
+                    úteis, e avisamos o prazo no orçamento.</p>
+            </details>
+
+            <details>
+                <summary>Os produtos têm garantia e nota fiscal?</summary>
+                <p>Sim. Todos os produtos têm nota fiscal e garantia do fabricante. Equipamentos de linha empresarial
+                    costumam ter garantia estendida, informada na página de cada item.</p>
+            </details>
+
+            <details>
+                <summary>Vocês instalam a rede da minha empresa?</summary>
+                <p>Fazemos o projeto, o cabeamento e a configuração. A entrega inclui o mapa de cabeamento, a tabela de
+                    endereços IP e as senhas dos equipamentos.</p>
+            </details>
+
+            <details>
+                <summary>Qual servidor eu devo comprar?</summary>
+                <p>Depende do uso. Para guardar arquivos e fazer backup, um NAS atende bem e gasta menos energia. Para
+                    controle de domínio ou sistemas de gestão, indicamos um servidor em torre de entrada.</p>
+            </details>
+
+            <details>
+                <summary>Posso trocar um produto?</summary>
+                <p>Compras feitas pelo site podem ser devolvidas em até 7 dias corridos após o recebimento, com o
+                    produto lacrado e sem uso.</p>
+            </details>
+
+        </section>
+
+    </main>
+
+    <br><br><br>
+    <footer class="rodape">
+        <p>
+            © 2026 SmartWeb Informática. Site desenvolvido por Baré Tech Sistemas S.A. Produtos, preços e contatos são
+            exemplos.
+        </p>
+    </footer>
 
 
 </body>
+
 </html>
