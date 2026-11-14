@@ -25,3 +25,13 @@ Seção da Apostila: Unidade 2 — seções 2.2, 2.5 e 2.6; Unidade 3 — seçã
 O que foi feito: Organizei as regiões semânticas, revisei os títulos e substitui tabelas de layout por elementos apropriados.
 Commit: refactor(html): melhora estrutura semântica da página
 Responsável: Bruno Cauã
+
+Nº: 03
+Data: 14/11/2026
+Sintoma Observado: O código apresentava elementos e atributos de apresentação obsoletos, como font, marquee, center e bgcolor, além do uso de document.write() no rodapé.
+Causa Encontrada: Utilização de elementos antigos de formatação e atributos visuais diretamente no HTML, além do uso de document.write() para inserir conteúdo na página.
+Seção da Apostila: Unidade 2 — HTML5 e elementos semânticos; Unidade 6 e 8 — Boas práticas de JavaScript.
+O que foi feito: Removi o elemento marquee, substituí os elementos font por span e p com classes apropriadas, removi o center do rodapé e o atributo bgcolor do body. Também substituí os elementos font utilizados na geração dinâmica dos produtos por span e removi o uso de document.write() do rodapé.
+Commit: refactor(html): remover elementos e atributos obsoletos
+Responsável: Bruno Cauã
+
