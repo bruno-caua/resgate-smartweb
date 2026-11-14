@@ -40,7 +40,7 @@ function montaCatalogo() {
   for (var i = 0; i <= produtos.length; i++) {
     if (linhaAtual = "todas" || produtos[i].linha == linhaAtual) {
       html = html + "<div class='card' style='float:left;width:240px;height:330px;margin:5px;border:1px solid #eee'>"
-      html = html + "<img src='produto" + i + ".png' width='120'>"
+      html = html + "<img src='produto" + i + ".png' alt='" + produtos[i].nome + "' width='120'>"
       html = html + "<span class='produto-sku'>" + produtos[i].sku + "</span><br>"
       html = html + "<h3>" + produtos[i].nome + "</h3>"
       html = html + "<span class='produto-descricao'>" + produtos[i].desc + "</span><br><br>"
@@ -133,7 +133,7 @@ input, textarea { border: 1px solid #f5f5f5; width: 300px; height: 30px; color: 
 <header id="topo">
     <div class="topo-conteudo">
 
-        <img src="logo.png" width="60" height="60">
+       <img src="logo.png" alt="SmartWeb Informática" width="60" height="60">
 
         <div class="logo">
             <span><b>SmartWeb</b></span>
@@ -194,7 +194,7 @@ input, textarea { border: 1px solid #f5f5f5; width: 300px; height: 30px; color: 
 </button>
   <br><br><br>
 
-  <img src="switch-24-portas.jpg" width="1100" height="120">
+  <img src="switch-24-portas.jpg" alt="Switch gerenciável Gigabit de 24 portas" width="1100" height="120">
   <br>
   Status das portas: <span class="verde"></span> <span class="verde"></span> <span class="vermelho"></span> <span class="verde"></span> <span class="vermelho"></span>
   <br><br>
@@ -390,11 +390,11 @@ input, textarea { border: 1px solid #f5f5f5; width: 300px; height: 30px; color: 
             <div>
                 <h3>TELEFONE</h3>
 
-                <span id="c-wa">(51) 3000-0000</span>
+<span id="c-tel">(51) 3000-0000</span>
 
-                <button type="button" onclick="copiar('c-tel')">
-                    [copiar]
-                </button>
+<button type="button" onclick="copiar('c-tel')">
+    [copiar]
+</button>
             </div>
 
             <br>
