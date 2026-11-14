@@ -41,9 +41,9 @@ function montaCatalogo() {
     if (linhaAtual = "todas" || produtos[i].linha == linhaAtual) {
       html = html + "<div class='card' style='float:left;width:240px;height:330px;margin:5px;border:1px solid #eee'>"
       html = html + "<img src='produto" + i + ".png' width='120'>"
-      html = html + "<font size='1' color='#ccc'>" + produtos[i].sku + "</font><br>"
+      html = html + "<span class='produto-sku'>" + produtos[i].sku + "</span><br>"
       html = html + "<h3>" + produtos[i].nome + "</h3>"
-      html = html + "<font size='2' color='#bbb'>" + produtos[i].desc + "</font><br><br>"
+      html = html + "<span class='produto-descricao'>" + produtos[i].desc + "</span><br><br>"
       html = html + "<b style='font-size:20px'>R$ " + produtos[i].preco + "</b><br>"
       html = html + "<button type='button' class='botao' onclick='adiciona(" + i + ")'>Adicionar ao pedido</button>"
       html = html + "</div>"
@@ -128,7 +128,7 @@ input, textarea { border: 1px solid #f5f5f5; width: 300px; height: 30px; color: 
 </style>
 </head>
 
-<body bgcolor="white">
+<body>
 
 <header id="topo">
     <div class="topo-conteudo">
@@ -138,7 +138,9 @@ input, textarea { border: 1px solid #f5f5f5; width: 300px; height: 30px; color: 
         <div class="logo">
             <span><b>SmartWeb</b></span>
             <br>
-            <font size="1" color="#5d8fbf">INFORMÁTICA E REDES</font>
+            <span class="logo-descricao">
+    INFORMÁTICA E REDES
+</span>
         </div>
 
         <button type="button" onclick="mostraAba('produtos')">
@@ -172,12 +174,17 @@ input, textarea { border: 1px solid #f5f5f5; width: 300px; height: 30px; color: 
 <main>
 <!-- EMPRESA -->
 <section id="empresa">
-  <marquee><font color="red" class="piscar">*** PROMOÇÃO IMPERDÍVEL ***</font></marquee>
-  <font size="1" color="#ccc">LOJA DE INFORMÁTICA E INFRAESTRUTURA DE REDE</font>
+  <p class="chamada-promocao">
+    *** PROMOÇÃO IMPERDÍVEL ***
+</p>
+  <span class="texto-auxiliar">
+    LOJA DE INFORMÁTICA E INFRAESTRUTURA DE REDE
+</span>
   <h1>Equipamento certo para a sua empresa funcionar amanhã cedo.</h1>
   <br>
-  <font color="#bbb">A SmartWeb vende computadores, redes e proteção de dados para pequenas e médias empresas. Indicamos o que o seu negócio usa de verdade e deixamos o resto de fora.</font>
-  <br><br>
+  <p class="texto-descricao">
+    A SmartWeb vende computadores, redes e proteção de dados para pequenas e médias empresas. Indicamos o que o seu negócio usa de verdade e deixamos o resto de fora.
+</p>
 <button type="button" class="botao" style="float:left" onclick="mostraAba('produtos')">
     Ver produtos
 </button>
@@ -308,10 +315,9 @@ input, textarea { border: 1px solid #f5f5f5; width: 300px; height: 30px; color: 
 
     <h2>Fale com a SmartWeb</h2>
 
-    <p>
-        <font color="#ccc">Dúvidas, orçamentos e pedidos.</font>
-    </p>
-
+  <p class="texto-auxiliar">
+    Dúvidas, orçamentos e pedidos.
+</p>
     <div class="contato-layout">
 
         <!-- FORMULÁRIO -->
@@ -439,10 +445,10 @@ input, textarea { border: 1px solid #f5f5f5; width: 300px; height: 30px; color: 
 </main>
 
 <br><br><br>
-<footer class="rodape" style="background:#f9f9f9;padding:20px;color:#ddd;font-size:10px">
-  <center>
-    <script>document.write("© " + new Date().getFullYear())</script> SmartWeb Informática. Site desenvolvido por Baré Tech Sistemas S.A. Produtos, preços e contatos são exemplos.
-  </center>
+<footer class="rodape">
+    <p>
+        © 2026 SmartWeb Informática. Site desenvolvido por Baré Tech Sistemas S.A. Produtos, preços e contatos são exemplos.
+    </p>
 </footer>
 
 
