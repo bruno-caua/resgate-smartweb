@@ -73,3 +73,20 @@ Commit: fix(html): melhorar estrutura do formulario
 
 Responsável: Bruno Cauã
 
+Correção A5
+
+Nº: 05
+Data: 14/11/2026
+
+Sintoma Observado: As imagens da página não possuíam descrições alternativas. Na área de contato, WhatsApp e telefone utilizavam o mesmo identificador (id="c-wa"). O botão de copiar telefone apontava para c-tel, que não existia no elemento correspondente.
+
+Causa Encontrada: Ausência do atributo alt nas imagens e utilização de um identificador duplicado no HTML, causando inconsistência entre o elemento do telefone e a referência utilizada pelo botão de cópia.
+
+Seção da Apostila: Unidade 2 — seção 2.4 (imagens e atributo alt); Etapa 3 — identificadores utilizados pelo JavaScript; Etapa 4 — passo 6 (formulário e imagens).
+
+O que foi feito: Adicionei o atributo alt à imagem do logotipo e à imagem do switch. Também acrescentei descrições alternativas às imagens dos produtos geradas dinamicamente pelo JavaScript, utilizando o nome de cada produto. Na área de contato, alterei o identificador do telefone de c-wa para c-tel, mantendo a correspondência com o botão de copiar.
+
+Commit: fix: melhora acessibilidade das imagens e corrige id do telefone
+
+Responsável: Bruno Cauã
+
