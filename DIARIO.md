@@ -8,4 +8,20 @@ Registrei os sintomas observados para depois investigar as causas e realizar as 
 
 
 | Nº | Data | Sintoma observado | Causa encontrada | Seção da apostila | O que foi feito | Commit | Responsável |
-|---:|---|---|---|---|---|---|---|
+
+Nº: 01 
+Data: 13/11/2026 
+Sintoma Observado: O documento não apresenta a estrutura inicial completa exigida pelo HTML5. O título da página é genérico.Causa Encontrada: Ausência de DOCTYPE, atributo lang e metadados de codificação e viewport. O título foi definido apenas como "site".
+Seção da Apostila: Unidade 2 - seção 2.1: Estrutura fundamental de um documento HTML5. 
+O que foi feito: adicionei a declaração HTML5, idioma, metadados e título adequado.
+Commit: fix(html): adiciona estrutura inicial HTML5
+Responsável: Bruno Cauã
+
+Nº: 02
+Data: 13/11/2026 
+Sintoma Observado: A estrutura da página utiliza elementos genéricos e tabelas para organizar o layout. A hierarquia dos títulos apresenta inconsistências.
+Causa Encontrada: Uso inadequado de divs como regiões principais, tabelas para apresentação visual e níveis de títulos sem organização semântica.
+Seção da Apostila: Unidade 2 — seções 2.2, 2.5 e 2.6; Unidade 3 — seção 3.6.
+O que foi feito: Organizei as regiões semânticas, revisei os títulos e substitui tabelas de layout por elementos apropriados.
+Commit: refactor(html): melhora estrutura semântica da página
+Responsável: Bruno Cauã
