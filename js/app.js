@@ -31,11 +31,11 @@ function formatarMoeda(valor) {
 }
 
 function mostraAba(aba) {
-  document.getElementById("empresa").style.display = "none";
-  document.getElementById("produtos").style.display = "none";
-  document.getElementById("contato").style.display = "none";
-  document.getElementById("faq").style.display = "none";
-  document.getElementById(aba).style.display = "block";
+  const abas = ["empresa", "produtos", "contato", "faq"];
+  abas.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = id === aba ? "block" : "none";
+  });
 }
 
 function montaCatalogo() {
@@ -117,40 +117,193 @@ function busca() {
   montaCatalogo();
 }
 
-function adiciona(i) {
-  carrinho.push(produtos[i]);
-  let total = 0;
-  for (let j = 0; j < carrinho.length; j++) {
-    total = total + carrinho[j].preco;
+function atualizaResumoPedido(mensagemStatus = "") {
+  const total = carrinho.reduce((soma, item) => soma + Number(item.preco), 0);
+  const elQtd = document.getElementById("qtd");
+  const elTotal = document.getElementById("total");
+
+  if (elQtd) elQtd.textContent = String(carrinho.length);
+  if (elTotal) elTotal.textContent = formatarMoeda(total);
+
+  let elAviso = document.getElementById("aviso-pedido");
+  const boxPedido = document.getElementById("pedido");
+  if (!elAviso && boxPedido) {
+    elAviso = document.createElement("p");
+    elAviso.id = "aviso-pedido";
+    elAviso.setAttribute("aria-live", "polite");
+    boxPedido.appendChild(elAviso);
   }
-  document.getElementById("qtd").innerHTML = carrinho.length;
-  document.getElementById("total").innerHTML = "R$ " + total;
-  alert("PRODUTO ADICIONADO COM SUCESSO!!!!!");
+  if (elAviso) elAviso.textContent = mensagemStatus;
+}
+
+function adiciona(i) {
+  const item = produtos[i];
+  if (!item) return;
+  carrinho.push(item);
+  atualizaResumoPedido(`"${item.nome}" adicionado ao pedido (${carrinho.length} item(ns)).`);
 }
 
 function limpar() {
   carrinho = [];
-  document.getElementById("qtd").innerHTML = 0;
-  document.getElementById("total").innerHTML = "";
+  atualizaResumoPedido("Pedido limpo.");
 }
 
-function enviar() {
-  const nome = document.getElementById("nome").value;
-  const email = document.getElementById("email").value;
-  const msg = document.getElementById("msg").value;
+function obterOuCriarSpanErro(campo) {
+  const idErro = `erro-${campo.id}`;
+  let span = document.getElementById(idErro);
+  if (!span) {
+    span = document.createElement("span");
+    span.id = idErro;
+    span.className = "erro-campo";
+    span.setAttribute("aria-live", "polite");
+    span.style.marginLeft = "8px";
+    span.style.color = "#b00020";
+    campo.insertAdjacentElement("afterend", span);
+  }
+  return span;
+}
+
+function enviar(evento) {
+  if (evento && typeof evento.preventDefault === "function") {
+    evento.preventDefault();
+  }
+
+  const campoNome = document.getElementById("nome");
+  const campoEmail = document.getElementById("email");
+  const campoAssunto = document.getElementById("assunto");
+  const campoMsg = document.getElementById("msg");
+
+  const erroNome = obterOuCriarSpanErro(campoNome);
+  const erroEmail = obterOuCriarSpanErro(campoEmail);
+  const erroMsg = obterOuCriarSpanErro(campoMsg);
+
+  const nome = campoNome.value.trim();
+  const email = campoEmail.value.trim();
+  const assunto = campoAssunto ? campoAssunto.value : "";
+  const msg = campoMsg.value.trim();
+
+  let valido = true;
+
   if (nome === "") {
-    alert("ERRO!!!");
+    erroNome.textContent = "Informe seu nome.";
+    campoNome.setAttribute("aria-invalid", "true");
+    valido = false;
+  } else {
+    erroNome.textContent = "";
+    campoNome.removeAttribute("aria-invalid");
   }
-  if (email.indexOf("@") === -1) {
-    alert("ERRO NO EMAIL");
+
+  if (email === "" || !email.includes("@") || !email.includes(".")) {
+    erroEmail.textContent = "Informe um e-mail válido com @.";
+    campoEmail.setAttribute("aria-invalid", "true");
+    valido = false;
+  } else {
+    erroEmail.textContent = "";
+    campoEmail.removeAttribute("aria-invalid");
   }
-  if (msg === "") alert("ERRO");
-  document.getElementById("resultado").innerHTML = "Nome: " + nome + "<br>Email: " + email + "<br>Mensagem: " + msg;
+
+  if (msg === "") {
+    erroMsg.textContent = "Escreva sua mensagem.";
+    campoMsg.setAttribute("aria-invalid", "true");
+    valido = false;
+  } else {
+    erroMsg.textContent = "";
+    campoMsg.removeAttribute("aria-invalid");
+  }
+
+  const resultado = document.getElementById("resultado");
+  if (!resultado) return;
+  resultado.innerHTML = "";
+
+  if (!valido) return;
+
+  const titulo = document.createElement("strong");
+  titulo.textContent = "Mensagem montada com sucesso:";
+
+  const pNome = document.createElement("p");
+  pNome.textContent = `Nome: ${nome}`;
+
+  const pEmail = document.createElement("p");
+  pEmail.textContent = `E-mail: ${email}`;
+
+  const pAssunto = document.createElement("p");
+  pAssunto.textContent = `Assunto: ${assunto}`;
+
+  const pMsg = document.createElement("p");
+  pMsg.textContent = `Mensagem: ${msg}`;
+
+  resultado.append(titulo, pNome, pEmail, pAssunto, pMsg);
 }
 
-function copiar(id) {
-  document.execCommand("copy");
-  alert("copiado");
+async function copiar(id) {
+  const spansContato = document.querySelectorAll("#contato span[id]");
+  if (spansContato.length >= 2 && spansContato[1].id === "c-wa") {
+    spansContato[1].id = "c-tel";
+  }
+
+  const alvo = document.getElementById(id);
+  if (!alvo) return;
+
+  const texto = alvo.textContent.trim();
+  try {
+    await navigator.clipboard.writeText(texto);
+  } catch {
+    const areaTemp = document.createElement("textarea");
+    areaTemp.value = texto;
+    document.body.appendChild(areaTemp);
+    areaTemp.select();
+    document.execCommand("copy");
+    areaTemp.remove();
+  }
+
+  let avisoCopia = document.getElementById("aviso-copia");
+  if (!avisoCopia) {
+    avisoCopia = document.createElement("p");
+    avisoCopia.id = "aviso-copia";
+    avisoCopia.setAttribute("aria-live", "polite");
+    alvo.closest("td")?.appendChild(avisoCopia);
+  }
+  avisoCopia.textContent = `Copiado: ${texto}`;
 }
 
-document.addEventListener("DOMContentLoaded", montaCatalogo);
+function inicializarFaqAcessivel() {
+  const perguntas = document.querySelectorAll("#faq h6, #faq .faq-pergunta");
+  perguntas.forEach((pergunta) => {
+    const resposta = pergunta.nextElementSibling;
+    if (!resposta) return;
+
+    pergunta.removeAttribute("onmouseover");
+    pergunta.removeAttribute("onmouseout");
+    pergunta.setAttribute("tabindex", "0");
+    pergunta.setAttribute("role", "button");
+    pergunta.setAttribute("aria-expanded", "false");
+    pergunta.style.cursor = "pointer";
+    resposta.style.display = "none";
+
+    const alternar = () => {
+      const aberta = pergunta.getAttribute("aria-expanded") === "true";
+      pergunta.setAttribute("aria-expanded", String(!aberta));
+      resposta.style.display = aberta ? "none" : "block";
+    };
+
+    pergunta.addEventListener("click", alternar);
+    pergunta.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        alternar();
+      }
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  montaCatalogo();
+  atualizaResumoPedido();
+  inicializarFaqAcessivel();
+
+  const formContato = document.querySelector("#contato form");
+  if (formContato) {
+    formContato.setAttribute("novalidate", "");
+    formContato.addEventListener("submit", enviar);
+  }
+});
