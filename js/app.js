@@ -1,8 +1,12 @@
 /*
  * Projeto: Resgate da SmartWeb — Desenvolvimento Web I
+ * Equipe: associados | Recurso Extra: Segurança
  * Arquivo: js/app.js
  * Responsável JS: Willian Lira de Souza
  */
+
+const EQUIPE_CODIGO = "associados";
+const RECURSO_EXTRA = "seguranca";
 
 const produtos = [
   { nome: 'Notebook Pro 14", i5, 16 GB, SSD 512 GB', sku: "NB-PRO14", linha: "comp", preco: 4290, desc: "Tela Full HD, teclado com numérico reduzido e bateria para o dia todo." },
@@ -19,20 +23,32 @@ const produtos = [
   { nome: "HD externo 2 TB, USB 3.0", sku: "HD-EXT2T", linha: "prot", preco: 489, desc: "Segunda mídia local para a cópia de segurança diária." }
 ];
 
+const LINHAS_PERMITIDAS = new Set(["todas", "comp", "rede", "prot"]);
+const ABAS_PERMITIDAS = new Set(["empresa", "produtos", "contato", "faq"]);
+
 let carrinho = [];
 let linhaAtual = "todas";
 let termoBusca = "";
 
+function sanitizarTexto(valor, limite = 200) {
+  return String(valor ?? "")
+    .replace(/[\u0000-\u001F\u007F]/g, " ")
+    .trim()
+    .slice(0, limite);
+}
+
 function formatarMoeda(valor) {
-  return Number(valor).toLocaleString("pt-BR", {
+  const numero = Number(valor);
+  if (!Number.isFinite(numero) || numero < 0) return "R$ 0,00";
+  return numero.toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL"
   });
 }
 
 function mostraAba(aba) {
-  const abas = ["empresa", "produtos", "contato", "faq"];
-  abas.forEach((id) => {
+  if (!ABAS_PERMITIDAS.has(aba)) return;
+  ABAS_PERMITIDAS.forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.style.display = id === aba ? "block" : "none";
   });
@@ -43,7 +59,8 @@ function montaCatalogo() {
   const elResultadoBusca = document.getElementById("resultadoBusca");
   if (!container) return;
 
-  const termoNormalizado = termoBusca.trim().toLowerCase();
+  const termoSeguro = sanitizarTexto(termoBusca, 80);
+  const termoNormalizado = termoSeguro.toLowerCase();
 
   const filtrados = produtos.filter((produto) => {
     const correspondeLinha = linhaAtual === "todas" || produto.linha === linhaAtual;
@@ -58,11 +75,11 @@ function montaCatalogo() {
 
   if (elResultadoBusca) {
     elResultadoBusca.textContent = termoNormalizado !== ""
-      ? `Você buscou por: "${termoBusca.trim()}" (${filtrados.length} resultado(s))`
+      ? `Você buscou por: "${termoSeguro}" (${filtrados.length} resultado(s))`
       : "";
   }
 
-  container.innerHTML = "";
+  container.replaceChildren();
 
   if (filtrados.length === 0) {
     const aviso = document.createElement("p");
@@ -107,13 +124,14 @@ function montaCatalogo() {
 }
 
 function filtra(l) {
+  if (!LINHAS_PERMITIDAS.has(l)) return;
   linhaAtual = l;
   montaCatalogo();
 }
 
 function busca() {
   const inputBusca = document.getElementById("busca");
-  termoBusca = inputBusca ? inputBusca.value : "";
+  termoBusca = inputBusca ? sanitizarTexto(inputBusca.value, 80) : "";
   montaCatalogo();
 }
 
@@ -137,8 +155,8 @@ function atualizaResumoPedido(mensagemStatus = "") {
 }
 
 function adiciona(i) {
-  const item = produtos[i];
-  if (!item) return;
+  if (!Number.isInteger(i) || i < 0 || i >= produtos.length) return;
+  const item = Object.freeze({ ...produtos[i] });
   carrinho.push(item);
   atualizaResumoPedido(`"${item.nome}" adicionado ao pedido (${carrinho.length} item(ns)).`);
 }
@@ -163,6 +181,10 @@ function obterOuCriarSpanErro(campo) {
   return span;
 }
 
+function emailValido(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) && email.length <= 120;
+}
+
 function enviar(evento) {
   if (evento && typeof evento.preventDefault === "function") {
     evento.preventDefault();
@@ -177,15 +199,15 @@ function enviar(evento) {
   const erroEmail = obterOuCriarSpanErro(campoEmail);
   const erroMsg = obterOuCriarSpanErro(campoMsg);
 
-  const nome = campoNome.value.trim();
-  const email = campoEmail.value.trim();
-  const assunto = campoAssunto ? campoAssunto.value : "";
-  const msg = campoMsg.value.trim();
+  const nome = sanitizarTexto(campoNome.value, 100);
+  const email = sanitizarTexto(campoEmail.value, 120);
+  const assunto = campoAssunto ? sanitizarTexto(campoAssunto.value, 60) : "";
+  const msg = sanitizarTexto(campoMsg.value, 1000);
 
   let valido = true;
 
-  if (nome === "") {
-    erroNome.textContent = "Informe seu nome.";
+  if (nome.length < 2) {
+    erroNome.textContent = "Informe seu nome completo (mínimo 2 caracteres).";
     campoNome.setAttribute("aria-invalid", "true");
     valido = false;
   } else {
@@ -193,8 +215,8 @@ function enviar(evento) {
     campoNome.removeAttribute("aria-invalid");
   }
 
-  if (email === "" || !email.includes("@") || !email.includes(".")) {
-    erroEmail.textContent = "Informe um e-mail válido com @.";
+  if (!emailValido(email)) {
+    erroEmail.textContent = "Informe um e-mail válido (ex.: nome@empresa.com.br).";
     campoEmail.setAttribute("aria-invalid", "true");
     valido = false;
   } else {
@@ -202,8 +224,8 @@ function enviar(evento) {
     campoEmail.removeAttribute("aria-invalid");
   }
 
-  if (msg === "") {
-    erroMsg.textContent = "Escreva sua mensagem.";
+  if (msg.length < 5) {
+    erroMsg.textContent = "Escreva sua mensagem (mínimo 5 caracteres).";
     campoMsg.setAttribute("aria-invalid", "true");
     valido = false;
   } else {
@@ -213,7 +235,7 @@ function enviar(evento) {
 
   const resultado = document.getElementById("resultado");
   if (!resultado) return;
-  resultado.innerHTML = "";
+  resultado.replaceChildren();
 
   if (!valido) return;
 
@@ -232,7 +254,14 @@ function enviar(evento) {
   const pMsg = document.createElement("p");
   pMsg.textContent = `Mensagem: ${msg}`;
 
-  resultado.append(titulo, pNome, pEmail, pAssunto, pMsg);
+  if (carrinho.length > 0) {
+    const totalPedido = carrinho.reduce((soma, item) => soma + item.preco, 0);
+    const pItens = document.createElement("p");
+    pItens.textContent = `Itens do pedido (${carrinho.length}): ${carrinho.map((item) => item.sku).join(", ")} — Total: ${formatarMoeda(totalPedido)}`;
+    resultado.append(titulo, pNome, pEmail, pAssunto, pMsg, pItens);
+  } else {
+    resultado.append(titulo, pNome, pEmail, pAssunto, pMsg);
+  }
 }
 
 async function copiar(id) {
@@ -244,7 +273,7 @@ async function copiar(id) {
   const alvo = document.getElementById(id);
   if (!alvo) return;
 
-  const texto = alvo.textContent.trim();
+  const texto = sanitizarTexto(alvo.textContent, 120);
   try {
     await navigator.clipboard.writeText(texto);
   } catch {
@@ -296,10 +325,29 @@ function inicializarFaqAcessivel() {
   });
 }
 
+function aplicarIdentificacaoEquipeSeguranca() {
+  document.documentElement.dataset.equipe = EQUIPE_CODIGO;
+  document.documentElement.dataset.recurso = RECURSO_EXTRA;
+
+  const linksExternos = document.querySelectorAll('a[target="_blank"]');
+  linksExternos.forEach((link) => {
+    link.setAttribute("rel", "noopener noreferrer");
+  });
+
+  const rodape = document.querySelector(".rodape, footer");
+  if (rodape && !document.getElementById("identificacao-equipe")) {
+    const info = document.createElement("p");
+    info.id = "identificacao-equipe";
+    info.textContent = `Equipe: ${EQUIPE_CODIGO} | Recurso: Segurança (Prevenção XSS e Sanitização)`;
+    rodape.appendChild(info);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   montaCatalogo();
   atualizaResumoPedido();
   inicializarFaqAcessivel();
+  aplicarIdentificacaoEquipeSeguranca();
 
   const formContato = document.querySelector("#contato form");
   if (formContato) {
