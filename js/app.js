@@ -21,6 +21,14 @@ const produtos = [
 
 let carrinho = [];
 let linhaAtual = "todas";
+let termoBusca = "";
+
+function formatarMoeda(valor) {
+  return Number(valor).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+}
 
 function mostraAba(aba) {
   document.getElementById("empresa").style.display = "none";
@@ -32,22 +40,70 @@ function mostraAba(aba) {
 
 function montaCatalogo() {
   const container = document.getElementById("catalogo");
+  const elResultadoBusca = document.getElementById("resultadoBusca");
   if (!container) return;
 
-  let html = "";
-  for (let i = 0; i < produtos.length; i++) {
-    if (linhaAtual === "todas" || produtos[i].linha === linhaAtual) {
-      html += "<div class='card' style='float:left;width:240px;height:330px;margin:5px;border:1px solid #eee'>";
-      html += "<img src='produto" + i + ".png' width='120'>";
-      html += "<font size='1' color='#ccc'>" + produtos[i].sku + "</font><br>";
-      html += "<h4>" + produtos[i].nome + "</h4>";
-      html += "<font size='2' color='#bbb'>" + produtos[i].desc + "</font><br><br>";
-      html += "<b style='font-size:20px'>R$ " + produtos[i].preco + "</b><br>";
-      html += "<div class='botao' onclick='adiciona(" + i + ")'>Adicionar ao pedido</div>";
-      html += "</div>";
-    }
+  const termoNormalizado = termoBusca.trim().toLowerCase();
+
+  const filtrados = produtos.filter((produto) => {
+    const correspondeLinha = linhaAtual === "todas" || produto.linha === linhaAtual;
+    const correspondeBusca =
+      termoNormalizado === "" ||
+      produto.nome.toLowerCase().includes(termoNormalizado) ||
+      produto.desc.toLowerCase().includes(termoNormalizado) ||
+      produto.sku.toLowerCase().includes(termoNormalizado);
+
+    return correspondeLinha && correspondeBusca;
+  });
+
+  if (elResultadoBusca) {
+    elResultadoBusca.textContent = termoNormalizado !== ""
+      ? `Você buscou por: "${termoBusca.trim()}" (${filtrados.length} resultado(s))`
+      : "";
   }
-  container.innerHTML = html;
+
+  container.innerHTML = "";
+
+  if (filtrados.length === 0) {
+    const aviso = document.createElement("p");
+    aviso.textContent = "Nenhum produto encontrado para a busca ou filtro selecionado.";
+    container.appendChild(aviso);
+    return;
+  }
+
+  filtrados.forEach((produto) => {
+    const indiceOriginal = produtos.indexOf(produto);
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.style.cssText = "float:left;width:240px;height:330px;margin:5px;border:1px solid #eee";
+
+    const img = document.createElement("img");
+    img.src = `produto${indiceOriginal}.png`;
+    img.alt = produto.nome;
+    img.width = 120;
+
+    const sku = document.createElement("small");
+    sku.textContent = produto.sku;
+
+    const titulo = document.createElement("h4");
+    titulo.textContent = produto.nome;
+
+    const desc = document.createElement("p");
+    desc.textContent = produto.desc;
+
+    const preco = document.createElement("strong");
+    preco.textContent = formatarMoeda(produto.preco);
+
+    const btnAdicionar = document.createElement("button");
+    btnAdicionar.type = "button";
+    btnAdicionar.className = "botao";
+    btnAdicionar.textContent = "Adicionar ao pedido";
+    btnAdicionar.addEventListener("click", () => adiciona(indiceOriginal));
+
+    card.append(img, document.createElement("br"), sku, titulo, desc, preco, document.createElement("br"), btnAdicionar);
+    container.appendChild(card);
+  });
 }
 
 function filtra(l) {
@@ -56,13 +112,9 @@ function filtra(l) {
 }
 
 function busca() {
-  const termo = document.getElementById("busca").value;
-  document.getElementById("resultadoBusca").innerHTML = "Você buscou por: <b>" + termo + "</b>";
-  for (let i = 0; i < produtos.length; i++) {
-    if (produtos[i].nome.indexOf(termo) > 0) {
-      document.getElementById("catalogo").innerHTML = produtos[i].nome;
-    }
-  }
+  const inputBusca = document.getElementById("busca");
+  termoBusca = inputBusca ? inputBusca.value : "";
+  montaCatalogo();
 }
 
 function adiciona(i) {
