@@ -96,3 +96,9 @@ Responsável: Bruno Cauã
 | Nº | Data | Sintoma observado | Causa encontrada | Seção da apostila | O que foi feito | Commit | Responsável |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 05 | 17/11 | CSS e JS ainda estavam embutidos no HTML, havia uso de `<br>` para espaçamento, `float`, larguras fixas, baixo contraste e menu oculto abaixo de 1200px | `<style>` e `<script>` inline no documento, seletores com `!important` e `@media (max-width: 1200px) { #menu { display: none; } }` | Seções 3, 4, 7 e 8 | Extraído CSS para `css/estilos.css` com Grid/Flexbox responsivo (360px, 768px, 1280px e Zoom 200%), contraste WCAG AA, foco visível e integração com `js/app.js` sem atributos inline | `c59e310` | Willian Lira |
+
+## Integração Final — HTML5, CSS3 e JavaScript (Equipe: associados | Recurso: Segurança)
+
+| Nº | Data | Sintoma observado | Causa encontrada | Seção da apostila | O que foi feito | Commit | Responsável |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 05 | 17/11 | CSS e JS ainda estavam embutidos no HTML, havia uso de `<br>` para espaçamento, `float`, larguras fixas, baixo contraste e menu oculto abaixo de 1200px | `<style>` e `<script>` inline no documento, seletores com `!important` e `@media (max-width: 1200px) { #menu { display: none; } }` | Seções 3, 4, 7 e 8 | Extraído CSS para `css/estilos.css` com Grid/Flexbox responsivo (360px, 768px, 1280px e Zoom 200%), contraste WCAG AA, foco visível e integração com `js/app.js` sem atributos inline | `03c8ef7` | Willian Lira |
