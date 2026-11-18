@@ -90,15 +90,12 @@ Commit: fix: melhora acessibilidade das imagens e corrige id do telefone
 
 Responsável: Bruno Cauã
 
-
-## Integração Final — HTML5, CSS3 e JavaScript (Equipe: associados | Recurso: Segurança)
-
-| Nº | Data | Sintoma observado | Causa encontrada | Seção da apostila | O que foi feito | Commit | Responsável |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 05 | 17/11 | CSS e JS ainda estavam embutidos no HTML, havia uso de `<br>` para espaçamento, `float`, larguras fixas, baixo contraste e menu oculto abaixo de 1200px | `<style>` e `<script>` inline no documento, seletores com `!important` e `@media (max-width: 1200px) { #menu { display: none; } }` | Seções 3, 4, 7 e 8 | Extraído CSS para `css/estilos.css` com Grid/Flexbox responsivo (360px, 768px, 1280px e Zoom 200%), contraste WCAG AA, foco visível e integração com `js/app.js` sem atributos inline | `c59e310` | Willian Lira |
-
-## Integração Final — HTML5, CSS3 e JavaScript (Equipe: associados | Recurso: Segurança)
+## Evolução JavaScript, Segurança, CSS3 Responsivo e Integração (Willian Lira de Souza)
 
 | Nº | Data | Sintoma observado | Causa encontrada | Seção da apostila | O que foi feito | Commit | Responsável |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 05 | 17/11 | CSS e JS ainda estavam embutidos no HTML, havia uso de `<br>` para espaçamento, `float`, larguras fixas, baixo contraste e menu oculto abaixo de 1200px | `<style>` e `<script>` inline no documento, seletores com `!important` e `@media (max-width: 1200px) { #menu { display: none; } }` | Seções 3, 4, 7 e 8 | Extraído CSS para `css/estilos.css` com Grid/Flexbox responsivo (360px, 768px, 1280px e Zoom 200%), contraste WCAG AA, foco visível e integração com `js/app.js` sem atributos inline | `03c8ef7` | Willian Lira |
+| 06 | 15/11 | Erro de sintaxe e runtime no carregamento do catálogo (`innerHtml`, `linhaAtual == l`, `i <= produtos.length`, `id="produto"`) | Script inline com erros de digitação, comparação em vez de atribuição, loop estourando índice do array e ID incorreto da seção | Seções 6.1, 6.2 e 11.2 | Extraído script para `js/app.js` com `defer` e `DOMContentLoaded`, corrigido loop e referências de ID com Console limpo | `d72063c` | Willian Lira |
+| 07 | 15/11 | Busca ignora termos no início, diferencia maiúsculas, não combina com filtro de linha e preços não têm formatação em reais | Uso de `indexOf(termo) > 0` sem `.toLowerCase()`, sobrescrita de `#catalogo` e ausência de `toLocaleString` | Seções 6.2, 6.7 e 11.4 | Filtragem combinada por linha e termo (nome, descrição e SKU) case-insensitive e formatação BRL (`R$ 0.000,00`) | `c60f2f4` | Willian Lira |
+| 08 | 15/11 | Pedido usa `alert` bloqueante, formulário recarrega a página, botão copiar falha no telefone e FAQ não funciona por teclado | Uso de `alert()`, ausência de `preventDefault()`, IDs duplicados e interação dependente de `onmouseover` | Seções 5.3, 5.4, 6.5 e 8.3 | Removidos `alert()`, adicionada validação inline ao lado dos campos com `aria-live`, Clipboard API e FAQ acessível | `a5bd710` | Willian Lira |
+| 09 | 15/11 | Risco de XSS por injeção de HTML na busca/formulário e ausência do recurso extra de segurança da equipe `associados` | Entradas refletidas sem sanitização ou limite de tamanho e falta de allowlists para navegação/filtros | Seção 11.4 e Ficha da Equipe | Sanitização anti-XSS (`textContent` + `replaceChildren`), allowlists, `Object.freeze()` no carrinho e identificação da equipe `associados` | `c4131c3` | Willian Lira |
+| 10 | 17/11 | CSS e JS ainda estavam embutidos no HTML, havia `<br>` para espaçamento, `float`, larguras fixas, baixo contraste e menu oculto abaixo de 1200px | `<style>` inline com `!important`, layout rígido e `@media (max-width: 1200px) { #menu { display: none; } }` | Seções 3, 4, 7 e 8 | Extraído CSS para `css/estilos.css` com Grid/Flexbox responsivo (360px, 768px, 1280px e Zoom 200%), contraste WCAG AA, foco visível e integração sem atributos inline | `3e5ce79` | Willian Lira |
